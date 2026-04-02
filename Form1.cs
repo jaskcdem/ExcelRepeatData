@@ -29,6 +29,7 @@ namespace ExcelRepeatData
                 case "btn_upload":
                     try
                     {
+                        WriteError();
                         #region Uploading
                         using OpenFileDialog openFile = new();
                         lbl_uploadStatus.Text = "Uploading...";
@@ -62,6 +63,7 @@ namespace ExcelRepeatData
                 case "btn_log":
                     try
                     {
+                        WriteError();
                         SelectFolder(txt_log);
                     }
                     catch (Exception ex) { WriteError(ex); }
@@ -69,6 +71,7 @@ namespace ExcelRepeatData
                 case "btn_out":
                     try
                     {
+                        WriteError();
                         SelectFolder(txt_out);
                     }
                     catch (Exception ex) { WriteError(ex); }
@@ -87,10 +90,11 @@ namespace ExcelRepeatData
                     if (Config == null) { Alert(NoDataMessage, NoDataTitle); return; }
                     txt_exist.Text = txt_notExist.Text = string.Empty;
                     var keys = txt_search.Text.Split(';').Select(s => s.Trim()).Where(s => !string.IsNullOrEmpty(s));
+                    string spliter = keys.Count() <= 6 ? Environment.NewLine : "¡B";
                     foreach (string keyword in keys)
                     {
-                        if (Config.IsExist(keyword)) txt_exist.AppendText(keyword + Environment.NewLine);
-                        else txt_notExist.AppendText(keyword + Environment.NewLine);
+                        if (Config.IsExist(keyword)) txt_exist.AppendText(keyword + spliter);
+                        else txt_notExist.AppendText(keyword + spliter);
                     }
                     break;
                 case "btn_clear":

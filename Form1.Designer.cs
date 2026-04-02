@@ -139,6 +139,7 @@
             txt_out.Enabled = false;
             txt_out.Location = new Point(576, 344);
             txt_out.Name = "txt_out";
+            txt_out.ScrollBars = ScrollBars.Horizontal;
             txt_out.Size = new Size(1048, 39);
             txt_out.TabIndex = 9;
             // 
@@ -158,6 +159,7 @@
             txt_log.Enabled = false;
             txt_log.Location = new Point(576, 247);
             txt_log.Name = "txt_log";
+            txt_log.ScrollBars = ScrollBars.Horizontal;
             txt_log.Size = new Size(1048, 39);
             txt_log.TabIndex = 6;
             // 
@@ -176,6 +178,7 @@
             // 
             txt_file.Location = new Point(316, 441);
             txt_file.Name = "txt_file";
+            txt_file.ScrollBars = ScrollBars.Horizontal;
             txt_file.Size = new Size(1308, 39);
             txt_file.TabIndex = 11;
             // 
@@ -183,6 +186,7 @@
             // 
             txt_except.Location = new Point(316, 142);
             txt_except.Name = "txt_except";
+            txt_except.ScrollBars = ScrollBars.Horizontal;
             txt_except.Size = new Size(1308, 39);
             txt_except.TabIndex = 3;
             // 
@@ -190,6 +194,7 @@
             // 
             txt_compare.Location = new Point(316, 42);
             txt_compare.Name = "txt_compare";
+            txt_compare.ScrollBars = ScrollBars.Horizontal;
             txt_compare.Size = new Size(1308, 39);
             txt_compare.TabIndex = 1;
             // 
@@ -388,6 +393,7 @@
             txt_search.Location = new Point(192, 43);
             txt_search.Multiline = true;
             txt_search.Name = "txt_search";
+            txt_search.ScrollBars = ScrollBars.Both;
             txt_search.Size = new Size(1470, 214);
             txt_search.TabIndex = 1;
             // 
