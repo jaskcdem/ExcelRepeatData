@@ -31,6 +31,7 @@
             tabControl1 = new TabControl();
             tab_import = new TabPage();
             pl_setting = new Panel();
+            btn_reflash = new Button();
             btn_exportAll = new Button();
             btn_export = new Button();
             txt_out = new TextBox();
@@ -93,6 +94,7 @@
             // 
             // pl_setting
             // 
+            pl_setting.Controls.Add(btn_reflash);
             pl_setting.Controls.Add(btn_exportAll);
             pl_setting.Controls.Add(btn_export);
             pl_setting.Controls.Add(txt_out);
@@ -107,31 +109,44 @@
             pl_setting.Controls.Add(lbl_out);
             pl_setting.Controls.Add(lbl_except);
             pl_setting.Controls.Add(lbl_compare);
-            pl_setting.Location = new Point(21, 247);
+            pl_setting.Location = new Point(21, 414);
             pl_setting.Name = "pl_setting";
-            pl_setting.Size = new Size(1649, 892);
+            pl_setting.Size = new Size(1649, 725);
             pl_setting.TabIndex = 4;
+            // 
+            // btn_reflash
+            // 
+            btn_reflash.BackColor = Color.PapayaWhip;
+            btn_reflash.Location = new Point(27, 518);
+            btn_reflash.Name = "btn_reflash";
+            btn_reflash.Size = new Size(273, 46);
+            btn_reflash.TabIndex = 14;
+            btn_reflash.Text = "Reflash setting";
+            btn_reflash.UseVisualStyleBackColor = false;
+            btn_reflash.Click += btn_click;
             // 
             // btn_exportAll
             // 
+            btn_exportAll.BackColor = Color.Tan;
             btn_exportAll.Font = new Font("Segoe UI", 10F);
             btn_exportAll.Location = new Point(1274, 642);
             btn_exportAll.Name = "btn_exportAll";
             btn_exportAll.Size = new Size(344, 46);
             btn_exportAll.TabIndex = 13;
             btn_exportAll.Text = "Export All";
-            btn_exportAll.UseVisualStyleBackColor = true;
+            btn_exportAll.UseVisualStyleBackColor = false;
             btn_exportAll.Click += btn_click;
             // 
             // btn_export
             // 
+            btn_export.BackColor = Color.Tan;
             btn_export.Font = new Font("Segoe UI", 10F);
             btn_export.Location = new Point(1274, 562);
             btn_export.Name = "btn_export";
             btn_export.Size = new Size(344, 46);
             btn_export.TabIndex = 12;
             btn_export.Text = "Export only repeat";
-            btn_export.UseVisualStyleBackColor = true;
+            btn_export.UseVisualStyleBackColor = false;
             btn_export.Click += btn_click;
             // 
             // txt_out
@@ -256,13 +271,13 @@
             pl_upload.Controls.Add(btn_upload);
             pl_upload.Location = new Point(21, 27);
             pl_upload.Name = "pl_upload";
-            pl_upload.Size = new Size(1649, 200);
+            pl_upload.Size = new Size(1649, 372);
             pl_upload.TabIndex = 3;
             // 
             // lbl_message
             // 
             lbl_message.AutoSize = true;
-            lbl_message.ForeColor = SystemColors.ControlDark;
+            lbl_message.ForeColor = SystemColors.Highlight;
             lbl_message.Location = new Point(27, 80);
             lbl_message.Name = "lbl_message";
             lbl_message.Size = new Size(122, 32);
@@ -466,5 +481,6 @@
         private Label lbl_notExist;
         private TextBox txt_exist;
         private Label lbl_exist;
+        private Button btn_reflash;
     }
 }

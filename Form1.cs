@@ -11,11 +11,19 @@ namespace ExcelRepeatData
             txt_compare.Text = defaultColumns;
             txt_except.Text = defaultSheet;
             lbl_info.Text = defaultInfo;
-            WriteError();
+            lbl_message.Text = Guild;
         }
         const string uploadStart = "selecting excel...";
         const string defaultInfo = "Use ';' to separate multiple keywords.";
         const string NoDataMessage = "Please upload an excel file first.";
+        const string Guild = @"Before uploading, please make sure:
+1. The excel file is closed.
+2. The column names to compare are correct and exist in the excel file.
+3. The sheet names to exclude are correct and exist in the excel file (if any).
+4. The log and output paths are valid (if specified).
+5. The output file name is valid (with extension, if specified).
+If you encounter any issues, please check the above points and try again.
+";
         const string NoDataTitle = "No Data";
         const string defaultColumns = "¦WºÙ";
         const string defaultSheet = "ª¬ºAªí";
@@ -29,7 +37,6 @@ namespace ExcelRepeatData
                 case "btn_upload":
                     try
                     {
-                        WriteError();
                         #region Uploading
                         using OpenFileDialog openFile = new();
                         lbl_uploadStatus.Text = "Uploading...";
@@ -41,11 +48,11 @@ namespace ExcelRepeatData
                             string? src = Path.GetDirectoryName(openFile.FileNames[0]);
                             Config = new FormConfig
                             {
-                                CompareColumns = [.. txt_compare.Text.Split(',').Select(s => s.Trim()).Where(s => !string.IsNullOrEmpty(s))],
-                                ExceptSheets = [.. txt_except.Text.Split(',').Select(s => s.Trim()).Where(s => !string.IsNullOrEmpty(s))],
-                                LogFile = !string.IsNullOrWhiteSpace(txt_log.Text) ? txt_log.Text : src ?? Environment.CurrentDirectory,
+                                CompareColumns = GetCompareColumns(),
+                                ExceptSheets = GetExceptSheets(),
+                                LogFile = GetLogPath(src),
                                 ExcelPath = src,
-                                OutputPath = !string.IsNullOrWhiteSpace(txt_out.Text) ? txt_out.Text : src ?? Environment.CurrentDirectory,
+                                OutputPath = GetOutputPath(src),
                             };
                             ExcelReader.Read(Config, openFile.FileNames);
                             if (!string.IsNullOrWhiteSpace(txt_file.Text)) Config.OutputFile = txt_file.Text.Trim();
@@ -54,27 +61,17 @@ namespace ExcelRepeatData
                         else lbl_uploadStatus.Text = uploadStart;
                         #endregion
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
-                        WriteError(ex);
                         lbl_uploadStatus.Text = uploadStart;
+                        throw;
                     }
                     break;
                 case "btn_log":
-                    try
-                    {
-                        WriteError();
-                        SelectFolder(txt_log);
-                    }
-                    catch (Exception ex) { WriteError(ex); }
+                    SelectFolder(txt_log);
                     break;
                 case "btn_out":
-                    try
-                    {
-                        WriteError();
-                        SelectFolder(txt_out);
-                    }
-                    catch (Exception ex) { WriteError(ex); }
+                    SelectFolder(txt_out);
                     break;
                 case "btn_export":
                     if (Config == null) { Alert(NoDataMessage, NoDataTitle); return; }
@@ -100,6 +97,15 @@ namespace ExcelRepeatData
                 case "btn_clear":
                     txt_exist.Text = txt_notExist.Text = txt_search.Text = string.Empty;
                     break;
+                case "btn_reflash":
+                    if (Config == null) { Alert(NoDataMessage, NoDataTitle); return; }
+                    Config.CompareColumns = GetCompareColumns();
+                    Config.ExceptSheets = GetExceptSheets();
+                    Config.LogFile = GetLogPath(Config.ExcelPath);
+                    Config.OutputPath = GetOutputPath(Config.ExcelPath);
+                    if (!string.IsNullOrWhiteSpace(txt_file.Text)) Config.OutputFile = txt_file.Text.Trim();
+                    Alert("Refresh completed.", "Success", MessageBoxIcon.Information);
+                    break;
             }
         }
 
@@ -117,18 +123,9 @@ namespace ExcelRepeatData
                 target.Text = dialog.SelectedPath;
             }
         }
-        private void WriteError(Exception? e = null)
-        {
-            if (e != null)
-            {
-                lbl_message.Text = e.ToString();
-                lbl_message.ForeColor = Color.Red;
-            }
-            else
-            {
-                lbl_message.Text = string.Empty;
-                lbl_message.ForeColor = Color.DarkGray;
-            }
-        }
+        private string[] GetCompareColumns() => [.. txt_compare.Text.Split(',').Select(s => s.Trim()).Where(s => !string.IsNullOrEmpty(s))];
+        private string[] GetExceptSheets() => [.. txt_except.Text.Split(',').Select(s => s.Trim()).Where(s => !string.IsNullOrEmpty(s))];
+        private string GetLogPath(string? src) => !string.IsNullOrWhiteSpace(txt_log.Text) ? txt_log.Text : src ?? Environment.CurrentDirectory;
+        private string GetOutputPath(string? src) => !string.IsNullOrWhiteSpace(txt_out.Text) ? txt_out.Text : src ?? Environment.CurrentDirectory;
     }
 }
